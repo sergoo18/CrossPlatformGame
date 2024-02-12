@@ -17,6 +17,7 @@ import net.mgsx.gltf.scene3d.scene.SceneManager;
 import net.mgsx.gltf.scene3d.scene.SceneSkybox;
 import net.mgsx.gltf.scene3d.utils.IBLBuilder;
 
+
 public class Game extends ApplicationAdapter
 {
 	private SceneManager sceneManager;
@@ -37,10 +38,11 @@ public class Game extends ApplicationAdapter
 		sceneManager = new SceneManager();
 		sceneManager.addScene(scene);
 
-		camera = new PerspectiveCamera(60f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera = new PerspectiveCamera(120f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		float d = .02f;
 		camera.near = d / 1000f;
 		camera.far = 20f;
+
 		sceneManager.setCamera(camera);
 		cameraController = new FirstPersonCameraController(camera);
 		Gdx.input.setInputProcessor(cameraController);
@@ -53,7 +55,7 @@ public class Game extends ApplicationAdapter
 		IBLBuilder iblBuilder = IBLBuilder.createOutdoor(light);
 		environmentCubemap = iblBuilder.buildEnvMap(1024);
 		diffuseCubemap = iblBuilder.buildIrradianceMap(256);
-		specularCubemap = iblBuilder.buildRadianceMap(10);
+		specularCubemap = iblBuilder.buildRadianceMap(1);
 		iblBuilder.dispose();
 
 		sceneManager.setAmbientLight(1f);
@@ -63,7 +65,6 @@ public class Game extends ApplicationAdapter
 		skybox = new SceneSkybox(environmentCubemap);
 		sceneManager.setSkyBox(skybox);
 		scene.animationController.setAnimation("Start_Liftoff", -1);
-
 	}
 
 	@Override
@@ -73,9 +74,9 @@ public class Game extends ApplicationAdapter
 
 	@Override
 	public void render() {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		cameraController.update();
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		sceneManager.update(deltaTime);
 		sceneManager.render();
 	}
