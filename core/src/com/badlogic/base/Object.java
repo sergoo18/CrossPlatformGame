@@ -8,8 +8,7 @@ import net.mgsx.gltf.scene3d.scene.Scene;
 import net.mgsx.gltf.scene3d.scene.SceneAsset;
 
 public class Object {
-
-    protected Object(String name, String modelFilePath, Vector3 pos, int width, int height)
+    public Object(String name, String modelFilePath, Vector3 pos, int width, int height)
     {
         this.name = name;
         this.pos = pos;

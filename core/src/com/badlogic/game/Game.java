@@ -22,7 +22,7 @@ public class Game extends ApplicationAdapter {
 		Light light = new Light(new Vector3(1, -3, 1), Color.WHITE);
 		gameScene = new GameScene(light, camera);
 
-		player = new Player("Aboba", "scene.gltf", new Vector3(3, -5, -1), 1);
+		player = new Player("Aboba", "scene.gltf", new Vector3(0, 0, -2), 1);
 		player.setAnimation("Start_Liftoff", 10);
 		gameScene.addObject(player);
 	}
