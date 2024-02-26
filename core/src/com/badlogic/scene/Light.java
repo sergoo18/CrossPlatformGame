@@ -10,7 +10,7 @@ import net.mgsx.gltf.scene3d.lights.DirectionalLightEx;
 import net.mgsx.gltf.scene3d.utils.IBLBuilder;
 
 public class Light {
-    private DirectionalLightEx light;
+    private final DirectionalLightEx light;
     private Cubemap diffuseCubemap;
     private Cubemap environmentCubemap;
     private Cubemap specularCubemap;

@@ -1,11 +1,5 @@
 package com.badlogic.base;
 
-<<<<<<< HEAD
-public class Object {
-    private String name;
-    private String modelFile;
-=======
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 
@@ -27,19 +21,21 @@ public class Object {
         move(pos);
     }
 
-
     private void loadModel() {
-        SceneAsset asset = new GLTFLoader().load(Gdx.files.internal(modelFilePath));
-        object = new Scene(asset.scene);
+        sceneAsset = new GLTFLoader().load(Gdx.files.internal(modelFilePath));
+        object = new Scene(sceneAsset.scene);
     }
     protected void move(Vector3 translation)
     {
-        object.modelInstance.transform.translate(translation.x, translation.y, translation.z);
+        object.modelInstance.transform.translate(translation);
     }
 
-    protected void dispose()
+    public void dispose()
     {
-
+        sceneAsset.dispose();
+    }
+    public Scene get() {
+        return object;
     }
 
     protected String name;
@@ -48,5 +44,5 @@ public class Object {
     protected int width;
     protected int height;
     protected Vector3 pos;
->>>>>>> origin/master
+    private SceneAsset sceneAsset;
 }
