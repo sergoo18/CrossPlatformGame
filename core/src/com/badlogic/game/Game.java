@@ -15,54 +15,53 @@ import com.badlogic.camera.Camera;
 import com.badlogic.scene.Light;
 import com.badlogic.scene.Skybox;
 
+import net.mgsx.gltf.scene3d.scene.Scene;
+import net.mgsx.gltf.scene3d.scene.SceneManager;
+import net.mgsx.gltf.scene3d.scene.SceneSkybox;
+
 public class Game extends ApplicationAdapter {
 	private Player player;
 	private Camera camera;
 	private Light light;
-	private Environment environment;
-	private ModelBatch modelBatch;
-	private Skybox skybox;
-	private final Array<ModelInstance> instances = new Array<>();
+	private SceneManager sceneManager;
+	private SceneSkybox sceneSkybox;
+	private final Array<Scene> instances = new Array<>();
 
 	@Override
 	public void create() {
-		modelBatch = new ModelBatch();
-		environment = new Environment();
+		sceneManager = new SceneManager();
 
 		camera = new Camera();
+		sceneManager.setCamera(camera.get());
 		Gdx.input.setInputProcessor(camera.getCameraController());
 
 		light = new Light(new Vector3(1, -3, 1), Color.WHITE);
-		environment.add(light.get());
-		environment.set(light.getSpecular());
-		environment.set(light.getDiffuse());
+		sceneManager.environment.add(light.get());
+		sceneManager.environment.set(light.getSpecular());
+		sceneManager.environment.set(light.getDiffuse());
 
-		skybox = new Skybox("net/mgsx/gltf/shaders/brdfLUT.png");
+		sceneSkybox = new SceneSkybox(light.getEnvironmentCubemap());
+		sceneManager.setSkyBox(sceneSkybox);
 
 		player = new Player("Aboba", 9);
-		instances.add(player.getModelInstance());
+		sceneManager.addScene(player.getModel());
 		player.setAnimation("Start_Liftoff", 10);
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		float deltaTime = Gdx.graphics.getDeltaTime();
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-		player.processInput(deltaTime);
-		player.updateAnimation(deltaTime);
 		camera.updateCameraControl();
-
-		modelBatch.begin(camera.get());
-		modelBatch.render(instances, environment);
-		modelBatch.render(skybox.get());
-		modelBatch.end();
+		sceneManager.update(deltaTime);
+		sceneManager.render();
 	}
 
 	@Override
 	public void dispose() {
 		light.dispose();
-		skybox.dispose();
+
 		player.dispose();
 	}
 }
