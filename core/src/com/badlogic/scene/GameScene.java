@@ -4,6 +4,7 @@ import com.badlogic.base.Object;
 import com.badlogic.camera.Camera;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 
 import net.mgsx.gltf.scene3d.attributes.PBRTextureAttribute;
 import net.mgsx.gltf.scene3d.scene.SceneManager;
@@ -29,7 +30,7 @@ public class GameScene
     }
     void buildCubeMaps()
     {
-        sceneManager.setAmbientLight(1f);
+        sceneManager.environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         sceneManager.environment.set(new PBRTextureAttribute(PBRTextureAttribute.BRDFLUTTexture, brdfLUT));
         sceneManager.environment.add(light.get());
         sceneManager.environment.set(light.getSpecular());

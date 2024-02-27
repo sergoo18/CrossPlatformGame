@@ -19,6 +19,7 @@ public class Camera {
         float d = .02f;
         camera.near = d / 1000f;
         camera.far = 20f;
+        camera.update();
 
         cameraController = new FirstPersonCameraController(camera);
 
